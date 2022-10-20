@@ -3,27 +3,15 @@ package Pkg;
 import javax.swing.*;
 
 public class Buyer extends Person {
+	ProductMenu menu;
 
 	Buyer() {
-
+		menu = new ProductMenuFactory("buyer");
 	}
 
 	public void showMenu() {
-		System.out.println("buyer show menu");
-		//create instance of the NewPage
-
-
-		//make page visible to the user
-//		page.setVisible(true);
-
-		//create a welcome label and set it to the new page
-//		JLabel wel_label = new JLabel("Welcome: tutu" );
-//		page.getContentPane().add(wel_label);
-
-		// JButton button = new JButton("Show Menu");
-		// button.setSize(30, 30);
-		// page.add(button);
-
+		System.out.println("---- Buyer Show Menu ----");
+		menu.showMenu();
 	}
 
 	@Override

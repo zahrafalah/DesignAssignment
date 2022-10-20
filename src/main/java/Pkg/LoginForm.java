@@ -130,6 +130,7 @@ class LoginForm extends JFrame implements ActionListener {
 			fileNotFoundException.printStackTrace();
 		}
 
+		((JFrame) SwingUtilities.getWindowAncestor(newPanel)).dispose();
 		myReader.close();
 	}
 

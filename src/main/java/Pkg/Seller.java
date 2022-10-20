@@ -4,8 +4,15 @@ import javax.swing.*;
 
 public class Seller extends Person {
 
+	ProductMenu menu;
+
+	Seller() {
+		menu = new ProductMenuFactory("seller");
+	}
+
 	public void showMenu() {
-		System.out.println("seller show menu");
+		System.out.println("---- Seller Show Menu ----");
+		menu.showMenu();
 	}
 
 	@Override
