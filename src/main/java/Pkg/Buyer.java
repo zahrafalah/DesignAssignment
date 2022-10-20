@@ -4,12 +4,12 @@ import javax.swing.*;
 
 public class Buyer extends Person {
 
-	Buyer(){
+	Buyer() {
 
 	}
 
 	public void showMenu() {
-		System.out.println("I am here");
+		System.out.println("buyer show menu");
 		//create instance of the NewPage
 
 

@@ -1,21 +1,12 @@
 package Pkg;
 
-import javax.swing.*;
-import java.awt.event.*;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
-
 public class Facade {
-
-	CreateLoginForm form;
-	ProductMenu productMenu;
-
-	Facade(ProductMenu productMenu) {
-		this.productMenu = productMenu;
+	Facade() {
 	}
 
-	private int userType;
+	private int userType = -1;
+
+	private UserInfoItem userInfoItem;
 
 	private Product theSelectedProduct;
 
@@ -23,19 +14,40 @@ public class Facade {
 
 	private ClassProductList theProductList;
 
-	private Person thePerson;
+	private Person person;
+
+	public Person getPerson() {
+		return this.person;
+	}
 
 	public int login() {
-		//create instance of the CreateLoginForm
-		CreateLoginForm form = new CreateLoginForm();
-
-		userType = form.getUserType();
-//		System.out.println("here "+userType);
-
-		form.setSize(400, 200);  //set size of the frame
+		// create the login form
+		LoginForm form = new LoginForm(this);
+		form.setSize(400, 200);
 		form.setVisible(true);
 
-		return userType;
+		System.out.println("form created");
+
+		// wait for the user to submit the form so we can get the user info
+		waiter();
+
+		// return 0 if login failed
+		if (userType < 0) {
+			System.out.println("login failed");
+			return 0;
+		}
+
+		System.out.println("login successful");
+
+		// create the person based on the user type
+		if (this.userInfoItem.getUserType() == 0) {
+			this.person = new Buyer();
+		} else {
+			this.person = new Seller();
+		}
+
+		// return 1 if login was ok
+		return 1;
 	}
 
 	public void addTrading() {
@@ -62,10 +74,6 @@ public class Facade {
 
 	}
 
-	public void createUser(UserInfoItem userinfoitem) {
-
-	}
-
 	public void createProductList() {
 
 	}
@@ -80,5 +88,26 @@ public class Facade {
 
 	public void productOperation() {
 
+	}
+
+	public void createUser(String userName, int userType) {
+		userInfoItem = new UserInfoItem(userName, userType);
+	}
+
+	public synchronized void waiter() {
+		while (userType == -1) {
+			try {
+				wait();
+			} catch(InterruptedException e ) {
+				e.printStackTrace();
+			}
+		}
+		System.out.println("facade user type has been set - " + userType);
+	}
+
+	public synchronized void setUserType(int userType, String userName) {
+		this.userType = userType;
+		createUser(userName, userType);
+		notify();
 	}
 }

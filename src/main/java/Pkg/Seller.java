@@ -5,7 +5,7 @@ import javax.swing.*;
 public class Seller extends Person {
 
 	public void showMenu() {
-
+		System.out.println("seller show menu");
 	}
 
 	@Override
