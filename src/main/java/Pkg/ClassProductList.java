@@ -2,10 +2,10 @@ package Pkg;
 
 public class ClassProductList<ProductIterator> {
 
-	private ProductIterator productIterator;
+    private ProductIterator productIterator;
 
-	public void accept(NodeVisitor visitor) {
+    public void accept(NodeVisitor visitor) {
 
-	}
+    }
 
 }

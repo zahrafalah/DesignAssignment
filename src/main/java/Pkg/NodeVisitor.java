@@ -2,10 +2,10 @@ package Pkg;
 
 public interface NodeVisitor {
 
-	public abstract void visitProduct(Product product);
+    void visitProduct(Product product);
 
-	public abstract void visitTrading(Trading trading);
+    void visitTrading(Trading trading);
 
-	public abstract void visitFacade(Facade facade);
+    void visitFacade(Facade facade);
 
 }

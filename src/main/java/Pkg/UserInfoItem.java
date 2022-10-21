@@ -1,27 +1,27 @@
 package Pkg;
 
 public class UserInfoItem {
-	private String name;
-	private int userType;
+    private final String name;
+    private final int userType;
 
-	public String getName() {
-		return name;
-	}
+    UserInfoItem(String name, int userType) {
+        this.name = name;
+        this.userType = userType;
+    }
 
-	public int getUserType() {
-		return userType;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getUserTypeString() {
-		if (userType == 0) {
-			return "buyer";
-		}
+    public int getUserType() {
+        return userType;
+    }
 
-		return "seller";
-	}
+    public String getUserTypeString() {
+        if (userType == 0) {
+            return "buyer";
+        }
 
-	UserInfoItem(String name, int userType) {
-		this.name = name;
-		this.userType = userType;
-	}
+        return "seller";
+    }
 }

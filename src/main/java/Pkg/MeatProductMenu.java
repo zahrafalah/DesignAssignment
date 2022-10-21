@@ -4,54 +4,126 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
+
+/**
+ * Bridge design pattern
+ */
 public class MeatProductMenu implements ProductMenu {
-	String[] list;
-	NewPage page;
+    PageBuilder page;
+    ProductIterator iterator = null;
+    UserInfoItem user;
+    FilePaths paths = new FilePaths();
 
-	MeatProductMenu(String[] list, NewPage page) {
-		this.list = list;
-		this.page= page;
-	}
+    MeatProductMenu(String[] list, PageBuilder page, UserInfoItem user) {
+        this.user = user;
+        this.page = page;
 
-	public void showMenu() {
+        // create an iterator for all the list items
+        ProductIterator tmp = iterator;
+        for (String s : list) {
+            System.out.println("adding to iterator - " + s);
+            if (tmp == null) {
+                iterator = new ProductIterator(s);
+                tmp = iterator;
+            } else {
+                if (!tmp.hasNext()) {
+                    tmp.next = new ProductIterator(s);
+                    tmp = tmp.next;
+                }
+            }
+        }
+    }
 
-		final JComboBox<String> cb = new JComboBox<String>(list);
+    public void showMenu() {
+        List<String> list = new ArrayList<>();
+        ProductIterator current = iterator;
 
-		cb.setMaximumSize(cb.getPreferredSize());
-		cb.setAlignmentX(Component.CENTER_ALIGNMENT);
+        // traverse the iterator to get all products for the dropdown
+        while (current != null) {
+            list.add(current.name);
+            current = current.next;
+        }
 
-		cb.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JComboBox cb = (JComboBox) e.getSource();
-				String selected = (String) cb.getSelectedItem();
+        String[] meatArr = list.toArray(new String[list.size()]);
+        final JComboBox<String> cb = new JComboBox<>(meatArr);
 
-				System.out.println("item name selected:" + selected);
-			}
-		});
-		cb.setSelectedIndex(0);
-		page.newPanel.add(cb);
+        cb.setMaximumSize(cb.getPreferredSize());
+        cb.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-	}
+        if (this.user.getUserTypeString() == "seller") {
+            cb.addActionListener(this.writeToSellerListFile());
+        } else {
+            cb.addActionListener(this.writeToUserProductFile());
+        }
 
-	public void showAddButton() {
+        page.addComponent(cb);
+    }
 
-	}
+    private ActionListener writeToSellerListFile() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JComboBox cb2 = (JComboBox) e.getSource();
+                String selected = (String) cb2.getSelectedItem();
 
-	public void showViewButton() {
+                System.out.println("selected meat item - " + selected);
+                String line = "Meat:" + selected + "\n";
+                writeToFile(paths.sellerListPath, line);
 
-	}
+                selected = user.getName() + ":" + selected + "\n";
+                writeToFile(paths.userProductPath, selected);
+            }
+        };
+    }
 
-	public void showRadioButton() {
+    private ActionListener writeToUserProductFile() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JComboBox cb2 = (JComboBox) e.getSource();
+                String selected = (String) cb2.getSelectedItem();
+                selected = user.getName() + ":" + selected + "\n";
 
-	}
+                System.out.println("selected meat item - " + selected);
+                writeToFile(paths.userProductPath, selected);
+            }
+        };
+    }
 
-	public void showLabels() {
+    private void writeToFile(String fileName, String line) {
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true));
+            writer.write(line);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-	}
+    public void showAddButton() {
 
-	public void showComBoxes() {
+    }
 
-	}
+    public void showViewButton() {
+
+    }
+
+    public void showRadioButton() {
+
+    }
+
+    public void showLabels() {
+
+    }
+
+    public void showComBoxes() {
+
+    }
 
 }

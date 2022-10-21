@@ -1,23 +1,30 @@
 package Pkg;
 
+/**
+ * Iterator Design Pattern
+ */
 public class ProductIterator {
+    public String name;
+    public ProductIterator next;
+    private ClassProductList classProductList;
 
-	private ClassProductList classProductList;
+    ProductIterator(String name) {
+        this.name = name;
+    }
 
-	public boolean hasNext() {
-		return false;
-	}
+    public boolean hasNext() {
+        return this.next != null;
+    }
 
-	public Offering Next() {
-		return null;
-	}
+    public ProductIterator Next() {
+        return this.next;
+    }
 
-	public void moveToHead() {
+    public void moveToHead() {
 
-	}
+    }
 
-	public void Remove() {
+    public void Remove() {
 
-	}
-
+    }
 }

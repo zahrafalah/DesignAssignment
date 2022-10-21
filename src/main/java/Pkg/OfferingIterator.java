@@ -1,23 +1,21 @@
 package Pkg;
 
-import Pkg.Offering;
-
 public class OfferingIterator {
 
-	public boolean hasNext() {
-		return false;
-	}
+    public boolean hasNext() {
+        return false;
+    }
 
-	public Offering Next() {
-		return null;
-	}
+    public Offering Next() {
+        return null;
+    }
 
-	public void moveToHead() {
+    public void moveToHead() {
 
-	}
+    }
 
-	public void Remove() {
+    public void Remove() {
 
-	}
+    }
 
 }
