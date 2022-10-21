@@ -16,6 +16,7 @@ import javax.swing.*;
  * computers paths in the FilePaths.java. Also, make sure before running the SellerList.txt and the
  * UserProduct.txt (Duhh!!) is empty.
  * ****
+ * @github Repo: https://github.com/zahrafalah/DesignAssignment
  **/
 
 public class Main {
